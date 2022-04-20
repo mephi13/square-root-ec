@@ -13,7 +13,7 @@ def is_qr(a, p):
     exp = (p-1)//2
     assert exp * 2 + 1 == p, "Exponent calculations are wrong in QR checker"
     val = pow(a, exp, p) # a^[(p-1)/2]
-\
+
     assert val == 1 or val == -1 % p, "QR checker didn't return 1 or -1!"
 
     return True if val == 1 else False
@@ -37,9 +37,6 @@ def gen_p(min_s, max_s, min_t, max_t, p):
         t = randrange(min_t, max_t)
 
         p = pow(2, t) * s + 1
-
-    #print(f"Bit length: {p.bit_length()}")
-
     assert isprime(p), "p is not prime!"
 
     if s and t:
@@ -96,7 +93,6 @@ def repeated_squaring(base, exp, p):
 
 def square_root(a, p):
     s, t = calculate_s_and_t(p)
-
     # set r = a ^[(s+1)/2] mod p
     r = pow(a, (s+1)//2, p)
 
@@ -177,16 +173,14 @@ def generate_square_root_instance(min_s_bits, max_s_bits, min_t_bits, max_t_bits
 def main(s_bits = None, t_bits = None, real_x = None, p =None, a=None):
     try:
         #init params
-        min_s_bits = s_bits if s_bits else 99
-        max_s_bits = s_bits + 1 if s_bits else 200
+        min_s_bits = s_bits if s_bits != None else 100
+        max_s_bits = s_bits + 1 if s_bits != None else 200
 
-        min_t_bits = t_bits if t_bits else 150
-        max_t_bits = t_bits + 1 if t_bits else 200
+        min_t_bits = t_bits if t_bits != None else 150
+        max_t_bits = t_bits + 1 if t_bits != None else 200
 
         # generate square root instance
         p, a, real_x = generate_square_root_instance(min_s_bits, max_s_bits, min_t_bits, max_t_bits, real_x, p, a)
-
-        print(p, isprime(p))
 
         term = Terminal()
         print(f'p is a {p.bit_length()} bit number')
@@ -195,7 +189,6 @@ def main(s_bits = None, t_bits = None, real_x = None, p =None, a=None):
 
         if real_x:
             print(f"Real x = {term.blue(str(real_x))},") 
-            print("{0:b}".format(real_x))
 
         print(f"a = {term.blue(str(real_x))}^2"\
             f" mod {term.red(str(p))}\na = {term.green(str(a))}")\
